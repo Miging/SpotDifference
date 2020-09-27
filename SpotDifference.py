@@ -16,6 +16,26 @@ class Rect:
 
     def checkin(self,x,y):
         return self.centerX-self.radius<x<self.centerX+self.radius and self.centerY-self.radius<y<self.centerY+self.radius
+
+class DifferencePoint:
+    def __init__(self,icx,rcx,cy,r):
+        self.left_rect=Rect(icx,cy,r)
+        self.right_rect=Rect(icx,cy,r)
+        self.left_check=Object("images/check.png")
+        self.left_check.locate(scene,icx-check_margin,cy-check_margin)
+        self.right_check=Object("images/check.png")
+        self.right_check.locate(scene,rcx-check_margin,cy-check_margin)
+
+    def checkin(self,x,y):
+        return self.left_rect.checkin(x,y) or self.right_rect.checkin(x,y)
+
+    def show(self):
+        self.left_check.show()
+        self.right_check.show        
+#첫번째 틀린위치
+point1=DifferencePoint(568,1186,594,54) 
+
+
 rect1_left=Rect(568,594,54)
 rect1_right= Rect(1186,594,54) 
 
@@ -32,7 +52,7 @@ def checkin(x,y,cs,cy,r):
 
 #첫번째 틀린위치 (568,594)-54
 def problem_onMouseAction(x,y,action):
-    if rect1_left.checkin(x,y) or rect1_right.checkin(x,y):
+    if point1.checkin(x,y):
         check1_left.show()
         check1_right.show()
     else:
